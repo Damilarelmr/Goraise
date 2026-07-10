@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoRaise - Complete Crowdfunding Platform</title>
+    <link rel="stylesheet" href="bootstrap-5.3.8-dist/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="fontawesome-free-7.0.0-web/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: green !important;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand i {
+            color: green;
+            margin-right: 8px;
+        }
+        .navbar-toggler {
+            border: none;
+            font-size:  1rem;
+        }
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .nav-link {
+            color: #4b5563 !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: green !important;
+        }
+
+        .nav-link.active {
+            color: green !important;
+        }
+
+        /* Buttons */
+        .btn-success {
+            background-color: green;
+            border-color: green;
+            padding: 10px 24px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-success:hover {
+            background-color: green;
+            border-color: rgb(6, 170, 6);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-outline-success {
+            border: 2px solid green;
+            color: green;
+            padding: 8px 22px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-outline-success:hover {
+            background-color: green;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Cards */
+        .card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s;
+            height: 100%;
+        }
+
+        .card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(135deg, green, rgb(7, 231, 7));
+            border-radius: 12px 12px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: green;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Progress Bar */
+        .progress {
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            background-color: green;
+            border-radius: 4px;
+        }
+
+        /* Forms */
+        .form-control, .form-select {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: green;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        /* Auth Container */
+        .auth-container {
+            min-height: calc(100vh - 76px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+            padding: 80px 0;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 40px;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .auth-subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        /* Dashboard */
+        .dashboard-container {
+            padding: 100px 0 60px;
+            background-color: #f9fafb;
+            min-height: calc(100vh - 76px);
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            border: 1px solid #e5e7eb;
+        }
+
+        .stats-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .stats-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        /* Payment Methods */
+        .payment-method {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .payment-method:hover {
+            border-color: green;
+        }
+
+        .payment-method.selected {
+            border-color: green;
+            background-color: #f5f3ff;
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            color: green;
+            margin-right: 15px;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 16px;
+            border: none;
+        }
+
+        .modal-header {
+            border-bottom: 2px solid #f3f4f6;
+            padding: 20px 24px;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            border-top: 2px solid #f3f4f6;
+            padding: 20px 24px;
+        }
+
+        /* Reviews */
+        .review-card {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .review-rating {
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: green;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1f2937;
+            color: #9ca3af;
+            padding: 60px 0 30px;
+        }
+
+        .footer h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: green;
+        }
+
+        /* Alert */
+        .alert {
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 80px 0 40px;
+            }
+            
+            .auth-card {
+                margin: 20px;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showPage('home')">
+                <i class="bi bi-lightning-charge-fill"></i>GoRaise
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="showPage('home')">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('projects')">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('howItWorks')">How It Works</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex" id="navButtons">
+                    <button class="btn btn-outline-success me-2" onclick="showPage('login')">Login</button>
+                    <button class="btn btn-success" onclick="showPage('signup')">Sign Up</button>
+                </div>
+                
+                <div class="d-flex" id="userMenu" style="display: none !important;">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-success dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-2"></i><span id="userName">User</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="showPage('dashboard')"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showPage('startProject')"><i class="bi bi-plus-circle me-2"></i>Start a Project</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="logout()"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Pages Container -->
+    <div id="app">
+        <!-- Home Page -->
+        <div id="homePage" class="page">
+            <!-- Hero Section -->
+            <section style="padding: 160px 0 80px; background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 100%);">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <h1 style="font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px;">
+                                Fund Your Dreams,
+                                <span style="color: green;">Change Lives</span>
+                            </h1>
+                            <p style="font-size: 1.2rem; color: #6b7280; margin-bottom: 30px;">
+                                Join the world's leading crowdfunding platform. Start your project, 
+                                support causes you believe in, and be part of something bigger.
+                            </p>
+                            <div class="d-flex gap-3">
+                                <button class="btn btn-success btn-lg" onclick="showPage('startProject')">
+                                    <i class="bi bi-rocket-takeoff me-2"></i>Start a Project
+                                </button>
+                                <button class="btn btn-outline-success btn-lg" onclick="showPage('projects')">
+                                    <i class="bi bi-search me-2"></i>Explore Projects
+                                </button>
+                            </div>
+                            
+                            <div class="row mt-5">
+                                <div class="col-4">
+                                    <div class="stats-value">$125M+</div>
+                                    <div class="text-muted">Funded</div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stats-value">25K+</div>
+                                    <div class="text-muted">Projects</div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stats-value">2M+</div>
+                                    <div class="text-muted">Backers</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="https://placehold.co/600x400/green/ffffff?text=GoRaise" class="img-fluid rounded-4 shadow-lg" alt="Hero">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Projects -->
+            <section class="py-5">
+                <div class="container">
+                    <h2 class="text-center mb-5" style="font-size: 2.5rem; font-weight: 700;">Featured Projects</h2>
+                    <div class="row g-4" id="featuredProjects">
+                        <!-- Projects will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works -->
+            <section class="py-5 bg-light">
+                <div class="container">
+                    <h2 class="text-center mb-5" style="font-size: 2.5rem; font-weight: 700;">How It Works</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="card text-center p-4">
+                                <div class="display-1 text-success mb-3">1</div>
+                                <h4>Create Your Project</h4>
+                                <p class="text-muted">Share your story, set your goal, and create rewards for backers.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center p-4">
+                                <div class="display-1 text-success mb-3">2</div>
+                                <h4>Spread the Word</h4>
+                                <p class="text-muted">Share your campaign with friends, family, and the community.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center p-4">
+                                <div class="display-1 text-success mb-3">3</div>
+                                <h4>Bring Ideas to Life</h4>
+                                <p class="text-muted">Receive funding and start creating your dream project.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Projects Page -->
+        <div id="projectsPage" class="page" style="display: none; padding: 100px 0 60px;">
+            <div class="container">
+                <h2 class="mb-4">Discover Projects</h2>
+                
+                <!-- Filters -->
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-success active" onclick="filterProjects('all')">All</button>
+                            <button class="btn btn-outline-success" onclick="filterProjects('tech')">Technology</button>
+                            <button class="btn btn-outline-success" onclick="filterProjects('arts')">Arts</button>
+                            <button class="btn btn-outline-success" onclick="filterProjects('social')">Social</button>
+                            <button class="btn btn-outline-success" onclick="filterProjects('business')">Business</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="Search projects..." id="searchProjects">
+                    </div>
+                </div>
+                
+                <!-- Projects Grid -->
+                <div class="row g-4" id="allProjects">
+                    <!-- Projects will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works Page -->
+        <i class="bi bi-gift display-1 text-success mb-3"></i>
+        <div id="howItWorksPage" class="page" style="display: none; padding: 100px 0 60px;">
+            <div class="container">
+                <h2 class="text-center mb-5">How GoRaise Works</h2>
+                
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card p-4 text-center">
+                            <i class="bi bi-pencil-square display-1 text-success mb-3"></i>
+                            <h4>1. Create Your Project</h4>
+                            <p class="text-muted">Tell your story, set a funding goal, and create rewards for backers. Our team will review your project to ensure it meets our guidelines.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card p-4 text-center">
+                            <i class="bi bi-megaphone display-1 text-success mb-3"></i>
+                            <h4>2. Share & Promote</h4>
+                            <p class="text-muted">Share your campaign on social media, email, and with your network. Engage with backers and keep them updated on your progress.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card p-4 text-center">
+                            <h4>3. Receive Funding</h4>
+                            <p class="text-muted">If you reach your goal by the deadline, you'll receive the funds (minus fees). Start creating and fulfill your rewards to backers.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="card p-5">
+                            <h3 class="mb-4">Frequently Asked Questions</h3>
+                            
+                            <div class="accordion" id="faqAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                            What are the fees?
+                                        </button>
+                                    </h2>
+                                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            GoRaise charges a 5% platform fee on successfully funded projects. Payment processing fees (2-3%) are additional.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                            When do I get paid?
+                                        </button>
+                                    </h2>
+                                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Funds are transferred within 5-7 business days after your campaign ends successfully.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                            What if I don't reach my goal?
+                                        </button>
+                                    </h2>
+                                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            With our flexible funding option, you keep whatever you raise. With fixed funding, you get nothing if you don't reach your goal.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="loginPage" class="page" style="display: none;">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2 class="auth-title">Welcome Back!</h2>
+                    <p class="auth-subtitle">Sign in to continue to GoRaise</p>
+                    
+                    <form id="loginForm" onsubmit="handleLogin(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success w-100 mb-3">Sign In</button>
+                        
+                        <p class="text-center mb-0">
+                            Don't have an account? 
+                            <a href="#" onclick="showPage('signup')" class="text-success">Sign Up</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup Page -->
+        <div id="signupPage" class="page" style="display: none;">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2 class="auth-title">Create Account</h2>
+                    <p class="auth-subtitle">Join GoRaise today</p>
+                    
+                    <form id="signupForm" onsubmit="handleSignup(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="signupName" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="signupEmail" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signupPassword" required 
+                                   minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                            <small class="text-muted">Must be at least 8 characters with 1 uppercase, 1 lowercase, and 1 number</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="signupConfirmPassword" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Account Type</label>
+                            <select class="form-select" id="signupUserType" required>
+                                <option value="">Select type</option>
+                                <option value="creator">Creator</option>
+                                <option value="backer">Backer</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="termsAgree" required>
+                            <label class="form-check-label" for="termsAgree">
+                                I agree to the <a href="#">Terms of Service</a> and <a href="l.html">Privacy Policy</a>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success w-100 mb-3">Create Account</button>
+                        
+                        <p class="text-center mb-0">
+                            Already have an account? 
+                            <a href="#" onclick="showPage('login')" class="text-success">Sign In</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Dashboard Page -->
+        <div id="dashboardPage" class="page" style="display: none;">
+            <div class="dashboard-container">
+                <div class="container">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h2>Welcome back, <span id="dashboardUserName">User</span>!</h2>
+                            <p class="text-muted">Here's what's happening with your account</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-icon bg-success bg-opacity-10">
+                                    <i class="bi bi-coin text-success fs-4"></i>
+                                </div>
+                                <div class="stats-value" id="totalDonated">$0</div>
+                                <div class="text-muted">Total Donated</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-icon bg-success bg-opacity-10">
+                                    <i class="bi bi-heart-fill text-success fs-4"></i>
+                                </div>
+                                <div class="stats-value" id="projectsSupported">0</div>
+                                <div class="text-muted">Projects Supported</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-icon bg-warning bg-opacity-10">
+                                    <i class="bi bi-rocket text-warning fs-4"></i>
+                                </div>
+                                <div class="stats-value" id="createdProjects">0</div>
+                                <div class="text-muted">Projects Created</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-icon bg-info bg-opacity-10">
+                                    <i class="bi bi-star text-info fs-4"></i>
+                                </div>
+                                <div class="stats-value" id="totalRaised">$0</div>
+                                <div class="text-muted">Total Raised</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs mb-4" id="dashboardTabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#backedProjects">Backed Projects</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#createdProjects">Created Projects</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#reviews">My Reviews</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#settings">Settings</button>
+                        </li>
+                    </ul>
+                    
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+                        <!-- Backed Projects -->
+                        <div class="tab-pane fade show active" id="backedProjects">
+                            <div class="row g-4" id="backedProjectsList">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Created Projects -->
+                        <div class="tab-pane fade" id="createdProjects">
+                            <div class="row g-4" id="createdProjectsList">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Reviews -->
+                        <div class="tab-pane fade" id="reviews">
+                            <div class="row" id="userReviewsList">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Settings -->
+                        <div class="tab-pane fade" id="settings">
+                            <div class="card p-4">
+                                <h4 class="mb-4">Account Settings</h4>
+                                
+                                <form id="settingsForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" id="settingsName" value="John Doe">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="settingsEmail" value="john@example.com">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Bio</label>
+                                        <textarea class="form-control" rows="3">Passionate creator and backer on GoRaise.</textarea>
+                                    </div>
+                                    
+                                    <h5 class="mt-4 mb-3">Change Password</h5>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Current Password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">New Password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Confirm New Password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-success">Save Changes</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Project Page -->
+        <div id="startProjectPage" class="page" style="display: none; padding: 100px 0 60px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2 class="mb-4">Start a New Project</h2>
+                        
+                        <form id="projectForm" onsubmit="handleProjectCreation(event)">
+                            <div class="card p-4 mb-4">
+                                <h5 class="mb-3">Basic Information</h5>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Project Title</label>
+                                    <input type="text" class="form-control" id="projectTitle" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select" id="projectCategory" required>
+                                        <option value="">Select category</option>
+                                        <option value="tech">Technology</option>
+                                        <option value="arts">Arts & Creative</option>
+                                        <option value="social">Social Impact</option>
+                                        <option value="business">Business</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Short Description</label>
+                                    <input type="text" class="form-control" id="projectShortDesc" maxlength="200" required>
+                                    <small class="text-muted">Max 200 characters</small>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Full Description</label>
+                                    <textarea class="form-control" id="projectFullDesc" rows="5" required></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="card p-4 mb-4">
+                                <h5 class="mb-3">Funding Details</h5>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Funding Goal ($)</label>
+                                    <input type="number" class="form-control" id="projectGoal" min="500" required>
+                                    <small class="text-muted">Minimum $500</small>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Campaign Duration (days)</label>
+                                    <input type="number" class="form-control" id="projectDuration" min="7" max="60" value="30" required>
+                                    <small class="text-muted">Between 7 and 60 days</small>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Funding Type</label>
+                                    <select class="form-select" id="projectFundingType" required>
+                                        <option value="fixed">Fixed (All or Nothing)</option>
+                                        <option value="flexible">Flexible (Keep what you raise)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="card p-4 mb-4">
+                                <h5 class="mb-3">Rewards</h5>
+                                
+                                <div id="rewardsContainer">
+                                    <div class="reward-item border p-3 rounded mb-3">
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label class="form-label">Amount ($)</label>
+                                                <input type="number" class="form-control reward-amount" placeholder="25" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Description</label>
+                                                <input type="text" class="form-control reward-desc" placeholder="What backers receive" required>
+                                            </div>
+                                            <div class="col-md-2 d-flex align-items-end">
+                                                <button type="button" class="btn btn-outline-danger remove-reward" onclick="removeReward(this)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="btn btn-outline-success" onclick="addReward()">
+                                    <i class="bi bi-plus-circle me-2"></i>Add Reward
+                                </button>
+                            </div>
+                            
+                            <div class="card p-4 mb-4">
+                                <h5 class="mb-3">Project Images</h5>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Main Image URL</label>
+                                    <input type="url" class="form-control" id="projectMainImage" placeholder="https://example.com/image.jpg" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Video URL (Optional)</label>
+                                    <input type="url" class="form-control" id="projectVideo" placeholder="https://youtube.com/watch?v=...">
+                                </div>
+                            </div>
+                            
+                            <div class="card p-4 mb-4">
+                                <h5 class="mb-3">Terms & Conditions</h5>
+                                
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="terms1" required>
+                                    <label class="form-check-label">
+                                        I confirm that all information provided is accurate and truthful
+                                    </label>
+                                </div>
+                                
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="terms2" required>
+                                    <label class="form-check-label">
+                                        I agree to GoRaise's terms of service and creator guidelines
+                                    </label>
+                                </div>
+                                
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="terms3" required>
+                                    <label class="form-check-label">
+                                        I understand the fees and payment terms
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success btn-lg w-100">
+                                <i class="bi bi-rocket-takeoff me-2"></i>Launch Project
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Detail Modal -->
+        <div class="modal fade" id="projectModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalProjectTitle">Project Title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="project-image mb-4" id="modalProjectImage"></div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <h6>Description</h6>
+                                <p id="modalProjectDescription"></p>
+                                
+                                <h6 class="mt-4">Rewards</h6>
+                                <div id="modalRewards" class="mb-4"></div>
+                                
+                                <h6>Reviews</h6>
+                                <div id="modalReviews"></div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="card p-3">
+                                    <h6>Funding Progress</h6>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar" id="modalProgress" style="width: 0%"></div>
+                                    </div>
+                                    <p class="mb-1"><strong id="modalRaised">$0</strong> raised of <strong id="modalGoal">$0</strong></p>
+                                    <p class="mb-3"><strong id="modalBackers">0</strong> backers</p>
+                                    
+                                    <button class="btn btn-success w-100 mb-3" onclick="showPaymentModal()">
+                                        <i class="bi bi-heart me-2"></i>Back This Project
+                                    </button>
+                                    
+                                    <p class="text-center mb-0">
+                                        <i class="bi bi-clock me-1"></i>
+                                        <span id="modalDaysLeft">0</span> days left
+                                    </p>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <h6>Share</h6>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-outline-success flex-fill"><i class="bi bi-facebook"></i></button>
+                                        <button class="btn btn-outline-success flex-fill"><i class="bi bi-twitter"></i></button>
+                                        <button class="btn btn-outline-success flex-fill"><i class="bi bi-linkedin"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Modal -->
+        <div class="modal fade" id="paymentModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Make a Donation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="paymentStep1">
+                            <h6 class="mb-3">Select Amount</h6>
+                            
+                            <div class="d-flex flex-wrap gap-2 mb-4">
+                                <button class="btn btn-outline-success donation-amount" data-amount="10">$10</button>
+                                <button class="btn btn-outline-success donation-amount" data-amount="25">$25</button>
+                                <button class="btn btn-outline-success donation-amount" data-amount="50">$50</button>
+                                <button class="btn btn-outline-success donation-amount" data-amount="100">$100</button>
+                                <button class="btn btn-outline-success donation-amount" data-amount="250">$250</button>
+                            </div>
+                            
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="customAmount" placeholder="Other amount" min="1">
+                            </div>
+                            
+                            <button class="btn btn-success w-100" onclick="showPaymentStep2()">Continue</button>
+                        </div>
+                        
+                        <div id="paymentStep2" style="display: none;">
+                            <h6 class="mb-3">Select Payment Method</h6>
+                            
+                            <div class="payment-method selected" onclick="selectPaymentMethod('card')">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-credit-card payment-icon"></i>
+                                    <div>
+                                        <h6 class="mb-0">Credit/Debit Card</h6>
+                                        <small class="text-muted">Pay with Visa, Mastercard, Amex</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method" onclick="selectPaymentMethod('paypal')">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-paypal payment-icon"></i>
+                                    <div>
+                                        <h6 class="mb-0">PayPal</h6>
+                                        <small class="text-muted">Pay with your PayPal account</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method" onclick="selectPaymentMethod('applepay')">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-apple payment-icon"></i>
+                                    <div>
+                                        <h6 class="mb-0">Apple Pay</h6>
+                                        <small class="text-muted">Fast and secure payment</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method" onclick="selectPaymentMethod('googlepay')">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-google payment-icon"></i>
+                                    <div>
+                                        <h6 class="mb-0">Google Pay</h6>
+                                        <small class="text-muted">Fast and secure payment</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="cardDetails" class="mt-4" style="display: none;">
+                                <div class="mb-3">
+                                    <label class="form-label">Card Number</label>
+                                    <input type="text" class="form-control" placeholder="1234 5678 9012 3456">
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="form-label">Expiry Date</label>
+                                        <input type="text" class="form-control" placeholder="MM/YY">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label">CVV</label>
+                                        <input type="text" class="form-control" placeholder="123">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Name on Card</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <button class="btn btn-outline-success me-2" onclick="showPaymentStep1()">Back</button>
+                                <button class="btn btn-success" onclick="processPayment()">Complete Payment</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Modal -->
+        <div class="modal fade" id="reviewModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Write a Review</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Rating</label>
+                            <div class="rating">
+                                <i class="bi bi-star fs-3 text-warning" onclick="setRating(1)"></i>
+                                <i class="bi bi-star fs-3 text-warning" onclick="setRating(2)"></i>
+                                <i class="bi bi-star fs-3 text-warning" onclick="setRating(3)"></i>
+                                <i class="bi bi-star fs-3 text-warning" onclick="setRating(4)"></i>
+                                <i class="bi bi-star fs-3 text-warning" onclick="setRating(5)"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Your Review</label>
+                            <textarea class="form-control" rows="4" placeholder="Share your experience with this project..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success" onclick="submitReview()">Submit Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5>GoRaise</h5>
+                    <p class="mb-3">The world's leading crowdfunding platform for bringing creative projects to life.</p>
+                    <div class="d-flex gap-3">
+                        <a href="damilareoladehinde3@gmail.com"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-twitter"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5>Explore</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" onclick="showPage('projects')">Projects</a></li>
+                        <li class="mb-2"><a href="#">Categories</a></li>
+                        <li class="mb-2"><a href="#">Success Stories</a></li>
+                        <li class="mb-2"><a href="#">Featured</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5>About</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" onclick="showPage('howItWorks')">How It Works</a></li>
+                        <li class="mb-2"><a href="#">Trust & Safety</a></li>
+                        <li class="mb-2"><a href="l.html">Help Center</a></li>
+                        <li class="mb-2"><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 col-md-4 mb-4">
+                    <h5>Stay Updated</h5>
+                    <p class="mb-3">Subscribe to our newsletter for the latest projects and updates.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email">
+                        <button class="btn btn-success">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2026 GoRaise. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white-50 me-3">Privacy Policy</a>
+                    <a href="#" class="text-white-50">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>   
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // when the navbar toggler is clicked, replace with a close icon and show the menu
+        document.querySelector('.navbar-toggler').addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('bi-list')) {
+                icon.classList.remove('bi-list');
+                icon.classList.add('bi-x');
+            } else {
+                icon.classList.remove('bi-x');
+                icon.classList.add('bi-list');
+            }
+        });
+        
+
+
+
+        // Global Variables
+        let currentUser = null;
+        let projects = [];
+        let currentProjectId = null;
+        let selectedPaymentMethod = 'card';
+        let currentRating = 0;
+        
+        // Sample Data
+        const sampleProjects = [
+            {
+                id: 1,
+                title: "Solar-Powered Smart Backpack",
+                category: "tech",
+                description: "Revolutionary backpack with integrated solar panels to charge your devices anywhere, anytime.",
+                shortDesc: "Never run out of battery with this solar-powered smart backpack.",
+                goal: 15000,
+                raised: 12500,
+                backers: 245,
+                daysLeft: 12,
+                creator: "Tech Innovators",
+                image: "green",
+                rewards: [
+                    { amount: 25, description: "Early bird special - Thank you email" },
+                    { amount: 50, description: "Limited edition sticker pack" },
+                    { amount: 100, description: "Backpack at 20% discount" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Community Art Mural Project",
+                category: "arts",
+                description: "Creating a massive mural celebrating local culture and diversity in downtown.",
+                shortDesc: "Help us transform a blank wall into a vibrant community artwork.",
+                goal: 5000,
+                raised: 4200,
+                backers: 89,
+                daysLeft: 21,
+                creator: "Artists Collective",
+                image: "#8b5cf6",
+                rewards: [
+                    { amount: 15, description: "Name on supporters wall" },
+                    { amount: 50, description: "Limited edition print" },
+                    { amount: 200, description: "Paint a section of the mural" }
+                ]
+            },
+            {
+                id: 3,
+                title: "Clean Water for Rural Village",
+                category: "social",
+                description: "Installing water filtration systems to provide clean water to a village in need.",
+                shortDesc: "Help bring clean drinking water to 500 families.",
+                goal: 25000,
+                raised: 18750,
+                backers: 312,
+                daysLeft: 5,
+                creator: "Water for All",
+                image: "#06b6d4",
+                rewards: [
+                    { amount: 25, description: "Thank you certificate" },
+                    { amount: 100, description: "Monthly impact report" },
+                    { amount: 500, description: "Visit the project site" }
+                ]
+            },
+            {
+                id: 4,
+                title: "Eco-Friendly Bamboo Bike",
+                category: "business",
+                description: "Handcrafted bicycles made from sustainable bamboo with carbon fiber joints.",
+                shortDesc: "The most sustainable and stylish bike you'll ever own.",
+                goal: 30000,
+                raised: 28500,
+                backers: 410,
+                daysLeft: 8,
+                creator: "Green Rides",
+                image: "#10b981",
+                rewards: [
+                    { amount: 50, description: "Eco-friendly t-shirt" },
+                    { amount: 500, description: "Bamboo bike at 30% off" },
+                    { amount: 1000, description: "Custom designed bamboo bike" }
+                ]
+            },
+            {
+                id: 5,
+                title: "AI Language Learning App",
+                category: "tech",
+                description: "Learn any language with our AI-powered personalized learning system.",
+                shortDesc: "Revolutionary app that adapts to your learning style.",
+                goal: 45000,
+                raised: 32000,
+                backers: 560,
+                daysLeft: 32,
+                creator: "LinguaTech",
+                image: "#8b5cf6",
+                rewards: [
+                    { amount: 10, description: "1-year premium access" },
+                    { amount: 50, description: "Lifetime premium access" },
+                    { amount: 100, description: "Beta tester + lifetime access" }
+                ]
+            },
+            {
+                id: 6,
+                title: "Children's Picture Book",
+                category: "arts",
+                description: "A heartwarming children's book about friendship and diversity.",
+                shortDesc: "Teaching kids about empathy through beautiful illustrations.",
+                goal: 8000,
+                raised: 7200,
+                backers: 145,
+                daysLeft: 15,
+                creator: "StoryTime Publishing",
+                image: "#ec4899",
+                rewards: [
+                    { amount: 15, description: "Digital copy of the book" },
+                    { amount: 30, description: "Signed hardcover copy" },
+                    { amount: 100, description: "Name in acknowledgments + signed book" }
+                ]
+            }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            projects = [...sampleProjects];
+            loadProjects();
+            checkAuthStatus();
+        });
+
+        // Page Navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show selected page
+            const page = document.getElementById(pageName + 'Page');
+            if (page) {
+                page.style.display = 'block';
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
+                // Load page-specific content
+                if (pageName === 'projects') {
+                    loadAllProjects();
+                } else if (pageName === 'dashboard' && currentUser) {
+                    loadDashboard();
+                }
+            }
+            
+            // Update footer visibility
+            const footer = document.getElementById('footer');
+            if (pageName === 'login' || pageName === 'signup') {
+                footer.style.display = 'none';
+            } else {
+                footer.style.display = 'block';
+            }
+        }
+
+        // Auth Functions
+        function checkAuthStatus() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateUIForLoggedInUser();
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simple validation
+            if (!email || !password) {
+                showAlert('Please fill in all fields', 'danger');
+                return;
+            }
+            
+            // Check if user exists in localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                updateUIForLoggedInUser();
+                showAlert('Login successful!', 'success');
+                showPage('home');
+            } else {
+                showAlert('Invalid email or password', 'danger');
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const userType = document.getElementById('signupUserType').value;
+            
+            // Validation
+            if (!name || !email || !password || !confirmPassword || !userType) {
+                showAlert('Please fill in all fields', 'danger');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showAlert('Passwords do not match', 'danger');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showAlert('Password must be at least 8 characters', 'danger');
+                return;
+            }
+            
+            if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
+                showAlert('Password must contain uppercase, lowercase, and number', 'danger');
+                return;
+            }
+            
+            // Check if user already exists
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (users.some(u => u.email === email)) {
+                showAlert('Email already registered', 'danger');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: users.length + 1,
+                name: name,
+                email: email,
+                password: password,
+                userType: userType,
+                donations: [],
+                projects: [],
+                reviews: []
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Auto login
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            
+            showAlert('Account created successfully!', 'success');
+            updateUIForLoggedInUser();
+            showPage('home');
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            
+            // Update UI
+            document.getElementById('navButtons').style.display = 'flex';
+            document.getElementById('userMenu').style.display = 'none';
+            
+            showAlert('Logged out successfully', 'success');
+            showPage('home');
+        }
+
+        function updateUIForLoggedInUser() {
+            if (currentUser) {
+                document.getElementById('navButtons').style.display = 'none';
+                document.getElementById('userMenu').style.display = 'flex';
+                document.getElementById('userName').textContent = currentUser.name.split(' ')[0];
+                document.getElementById('dashboardUserName').textContent = currentUser.name.split(' ')[0];
+            }
+        }
+
+        // Project Functions
+        function loadProjects() {
+            const featuredContainer = document.getElementById('featuredProjects');
+            if (featuredContainer) {
+                featuredContainer.innerHTML = '';
+                
+                projects.slice(0, 3).forEach(project => {
+                    featuredContainer.innerHTML += createProjectCard(project);
+                });
+            }
+        }
+
+        function loadAllProjects() {
+            const container = document.getElementById('allProjects');
+            if (container) {
+                container.innerHTML = '';
+                
+                projects.forEach(project => {
+                    container.innerHTML += createProjectCard(project);
+                });
+            }
+        }
+
+        function createProjectCard(project) {
+            const progress = Math.round((project.raised / project.goal) * 100);
+            
+            return `
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="project-image" style="background: ${project.image};"></div>
+                        <div class="card-body">
+                            <span class="category-badge">${project.category}</span>
+                            <h5 class="card-title">${project.title}</h5>
+                            <p class="card-text text-muted small">${project.shortDesc}</p>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">$${project.raised.toLocaleString()}</span>
+                                    <span>${progress}%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: ${progress}%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <small class="text-muted">Goal: $${project.goal.toLocaleString()}</small>
+                                    <small class="text-muted">${project.daysLeft} days left</small>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">${project.backers} backers</small>
+                                <button class="btn btn-success btn-sm" onclick="viewProject(${project.id})">
+                                    View Project
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterProjects(category) {
+            const container = document.getElementById('allProjects');
+            container.innerHTML = '';
+            
+            const filtered = category === 'all' 
+                ? projects 
+                : projects.filter(p => p.category === category);
+            
+            filtered.forEach(project => {
+                container.innerHTML += createProjectCard(project);
+            });
+            
+            // Update active button
+            document.querySelectorAll('[onclick^="filterProjects"]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function viewProject(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) return;
+            
+            currentProjectId = projectId;
+            
+            // Update modal content
+            document.getElementById('modalProjectTitle').textContent = project.title;
+            document.getElementById('modalProjectDescription').textContent = project.description;
+            document.getElementById('modalProjectImage').style.background = project.image;
+            document.getElementById('modalRaised').textContent = `$${project.raised.toLocaleString()}`;
+            document.getElementById('modalGoal').textContent = `$${project.goal.toLocaleString()}`;
+            document.getElementById('modalBackers').textContent = project.backers;
+            document.getElementById('modalDaysLeft').textContent = project.daysLeft;
+            
+            const progress = Math.round((project.raised / project.goal) * 100);
+            document.getElementById('modalProgress').style.width = progress + '%';
+            
+            // Load rewards
+            const rewardsContainer = document.getElementById('modalRewards');
+            rewardsContainer.innerHTML = '';
+            
+            project.rewards.forEach(reward => {
+                rewardsContainer.innerHTML += `
+                    <div class="card p-2 mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold">$${reward.amount}</span>
+                            <small>${reward.description}</small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // Show modal
+            new bootstrap.Modal(document.getElementById('projectModal')).show();
+        }
+
+        // Project Creation
+        function handleProjectCreation(event) {
+            event.preventDefault();
+            
+            if (!currentUser) {
+                showAlert('Please login to create a project', 'warning');
+                showPage('login');
+                return;
+            }
+            
+            // Get form values
+            const title = document.getElementById('projectTitle').value;
+            const category = document.getElementById('projectCategory').value;
+            const shortDesc = document.getElementById('projectShortDesc').value;
+            const fullDesc = document.getElementById('projectFullDesc').value;
+            const goal = parseInt(document.getElementById('projectGoal').value);
+            const duration = parseInt(document.getElementById('projectDuration').value);
+            const fundingType = document.getElementById('projectFundingType').value;
+            const mainImage = document.getElementById('projectMainImage').value;
+            
+            // Validation
+            if (!title || !category || !shortDesc || !fullDesc || !goal || !duration || !mainImage) {
+                showAlert('Please fill in all required fields', 'danger');
+                return;
+            }
+            
+            if (goal < 500) {
+                showAlert('Funding goal must be at least $500', 'danger');
+                return;
+            }
+            
+            if (duration < 7 || duration > 60) {
+                showAlert('Campaign duration must be between 7 and 60 days', 'danger');
+                return;
+            }
+            
+            // Collect rewards
+            const rewards = [];
+            const rewardAmounts = document.querySelectorAll('.reward-amount');
+            const rewardDescs = document.querySelectorAll('.reward-desc');
+            
+            for (let i = 0; i < rewardAmounts.length; i++) {
+                if (rewardAmounts[i].value && rewardDescs[i].value) {
+                    rewards.push({
+                        amount: parseInt(rewardAmounts[i].value),
+                        description: rewardDescs[i].value
+                    });
+                }
+            }
+            
+            // Create new project
+            const newProject = {
+                id: projects.length + 1,
+                title: title,
+                category: category,
+                description: fullDesc,
+                shortDesc: shortDesc,
+                goal: goal,
+                raised: 0,
+                backers: 0,
+                daysLeft: duration,
+                creator: currentUser.name,
+                image: mainImage || 'green',
+                rewards: rewards
+            };
+            
+            projects.push(newProject);
+            
+            // Add to user's projects
+            if (!currentUser.projects) currentUser.projects = [];
+            currentUser.projects.push(newProject.id);
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Update users in localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            showAlert('Project created successfully!', 'success');
+            showPage('projects');
+        }
+
+        function addReward() {
+            const container = document.getElementById('rewardsContainer');
+            const newReward = document.createElement('div');
+            newReward.className = 'reward-item border p-3 rounded mb-3';
+            newReward.innerHTML = `
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Amount ($)</label>
+                        <input type="number" class="form-control reward-amount" placeholder="25" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Description</label>
+                        <input type="text" class="form-control reward-desc" placeholder="What backers receive" required>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-outline-danger remove-reward" onclick="removeReward(this)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(newReward);
+        }
+
+        function removeReward(button) {
+            button.closest('.reward-item').remove();
+        }
+
+        // Payment Functions
+        function showPaymentModal() {
+            if (!currentUser) {
+                showAlert('Please login to make a donation', 'warning');
+                showPage('login');
+                return;
+            }
+            
+            new bootstrap.Modal(document.getElementById('paymentModal')).show();
+        }
+
+        function showPaymentStep1() {
+            document.getElementById('paymentStep1').style.display = 'block';
+            document.getElementById('paymentStep2').style.display = 'none';
+        }
+
+        function showPaymentStep2() {
+            const amount = document.getElementById('customAmount').value;
+            if (!amount || amount < 1) {
+                showAlert('Please enter a valid amount', 'danger');
+                return;
+            }
+            
+            document.getElementById('paymentStep1').style.display = 'none';
+            document.getElementById('paymentStep2').style.display = 'block';
+        }
+
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            document.getElementById('cardDetails').style.display = method === 'card' ? 'block' : 'none';
+        }
+
+        function processPayment() {
+            const amount = document.getElementById('customAmount').value;
+            const project = projects.find(p => p.id === currentProjectId);
+            
+            if (!project) return;
+            
+            // Update project stats
+            project.raised += parseInt(amount);
+            project.backers += 1;
+            
+            // Update user donations
+            if (!currentUser.donations) currentUser.donations = [];
+            currentUser.donations.push({
+                projectId: project.id,
+                projectTitle: project.title,
+                amount: parseInt(amount),
+                date: new Date().toISOString(),
+                paymentMethod: selectedPaymentMethod
+            });
+            
+            // Save to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Update users list
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Close modals
+            bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+            bootstrap.Modal.getInstance(document.getElementById('projectModal')).hide();
+            
+            showAlert(`Thank you for your donation of $${amount}!`, 'success');
+        }
+
+        // Review Functions
+        function showReviewModal() {
+            if (!currentUser) {
+                showAlert('Please login to write a review', 'warning');
+                showPage('login');
+                return;
+            }
+            
+            new bootstrap.Modal(document.getElementById('reviewModal')).show();
+        }
+
+        function setRating(rating) {
+            currentRating = rating;
+            
+            const stars = document.querySelectorAll('.rating i');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('bi-star');
+                    star.classList.add('bi-star-fill');
+                } else {
+                    star.classList.remove('bi-star-fill');
+                    star.classList.add('bi-star');
+                }
+            });
+        }
+
+        function submitReview() {
+            const reviewText = document.querySelector('#reviewModal textarea').value;
+            
+            if (!currentRating) {
+                showAlert('Please select a rating', 'danger');
+                return;
+            }
+            
+            if (!reviewText) {
+                showAlert('Please write a review', 'danger');
+                return;
+            }
+            
+            const project = projects.find(p => p.id === currentProjectId);
+            
+            // Create review
+            const review = {
+                id: Date.now(),
+                projectId: project.id,
+                projectTitle: project.title,
+                userId: currentUser.id,
+                userName: currentUser.name,
+                rating: currentRating,
+                text: reviewText,
+                date: new Date().toISOString()
+            };
+            
+            // Save review
+            if (!currentUser.reviews) currentUser.reviews = [];
+            currentUser.reviews.push(review);
+            
+            // Save to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Update users list
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            bootstrap.Modal.getInstance(document.getElementById('reviewModal')).hide();
+            showAlert('Review submitted successfully!', 'success');
+        }
+
+        // Dashboard Functions
+        function loadDashboard() {
+            if (!currentUser) return;
+            
+            // Calculate stats
+            const totalDonated = currentUser.donations?.reduce((sum, d) => sum + d.amount, 0) || 0;
+            const projectsSupported = currentUser.donations?.length || 0;
+            const createdProjects = currentUser.projects?.length || 0;
+            const totalRaised = projects
+                .filter(p => currentUser.projects?.includes(p.id))
+                .reduce((sum, p) => sum + p.raised, 0);
+            
+            // Update stats
+            document.getElementById('totalDonated').textContent = `$${totalDonated.toLocaleString()}`;
+            document.getElementById('projectsSupported').textContent = projectsSupported;
+            document.getElementById('createdProjects').textContent = createdProjects;
+            document.getElementById('totalRaised').textContent = `$${totalRaised.toLocaleString()}`;
+            
+            // Load backed projects
+            const backedContainer = document.getElementById('backedProjectsList');
+            backedContainer.innerHTML = '';
+            
+            if (currentUser.donations) {
+                const backedProjects = projects.filter(p => 
+                    currentUser.donations.some(d => d.projectId === p.id)
+                );
+                
+                backedProjects.forEach(project => {
+                    backedContainer.innerHTML += `
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${project.title}</h5>
+                                    <p class="text-muted small">${project.shortDesc}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-success">$${project.raised.toLocaleString()} raised</span>
+                                        <button class="btn btn-sm btn-outline-success" onclick="viewProject(${project.id})">
+                                            View Project
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Load created projects
+            const createdContainer = document.getElementById('createdProjectsList');
+            createdContainer.innerHTML = '';
+            
+            if (currentUser.projects) {
+                const userProjects = projects.filter(p => currentUser.projects.includes(p.id));
+                
+                userProjects.forEach(project => {
+                    createdContainer.innerHTML += `
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${project.title}</h5>
+                                    <p class="text-muted small">${project.shortDesc}</p>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar" style="width: ${Math.round(project.raised/project.goal*100)}%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>$${project.raised.toLocaleString()}</span>
+                                        <span>Goal: $${project.goal.toLocaleString()}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Load user reviews
+            const reviewsContainer = document.getElementById('userReviewsList');
+            reviewsContainer.innerHTML = '';
+            
+            if (currentUser.reviews) {
+                currentUser.reviews.forEach(review => {
+                    reviewsContainer.innerHTML += `
+                        <div class="col-12">
+                            <div class="review-card">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="mb-0">${review.projectTitle}</h6>
+                                    <div class="text-warning">
+                                        ${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}
+                                    </div>
+                                </div>
+                                <p class="mb-2">"${review.text}"</p>
+                                <small class="text-muted">${new Date(review.date).toLocaleDateString()}</small>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Load settings
+            document.getElementById('settingsName').value = currentUser.name;
+            document.getElementById('settingsEmail').value = currentUser.email;
+        }
+
+        // Utility Functions
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
+            alertDiv.style.zIndex = '9999';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        // Search functionality
+        document.getElementById('searchProjects')?.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const container = document.getElementById('allProjects');
+            container.innerHTML = '';
+            
+            const filtered = projects.filter(p => 
+                p.title.toLowerCase().includes(searchTerm) ||
+                p.description.toLowerCase().includes(searchTerm) ||
+                p.category.toLowerCase().includes(searchTerm)
+            );
+            
+            filtered.forEach(project => {
+                container.innerHTML += createProjectCard(project);
+            });
+        });
+      </script>
+
+
+<script src="bootstrap-5.3.8-dist/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+<script src="fontawesome-free-7.0.0-web/js/all.min.js"></script>
+</body>
+</html>
